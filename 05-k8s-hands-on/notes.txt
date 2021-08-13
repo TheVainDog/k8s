@@ -1,0 +1,24 @@
+# Point minikube internal docker to the localhost docker run:
+eval $(minikube -p minikube docker-env)
+
+# Crete images:
+cd backend
+docker build -t backend-k8s-hands-on -f Dockerfile .
+
+cd frontend
+docker build -t frontend-k8s-hands-on -f Dockerfile .
+
+# Create nodes:
+cd backend
+kubectl apply -f backend.yaml
+
+cd frontend
+kubectl apply -f frontend.yaml
+
+# Identify minikube ip run:
+minikube ip
+
+# Identify NodePort run:
+kubectl get svc -l app=frontend
+
+# Run in browser using minikube ip and service port
